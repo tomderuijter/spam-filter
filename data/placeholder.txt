@@ -1,0 +1,10 @@
+(1) Download and (2) unpack the Enron RAW email data in this folder.
+Download url: http://www2.aueb.gr/users/ion/data/enron-spam/
+
+You should end up with two base folders:
+
+ ham/
+ spam/
+
+Each will have numerous subfolders.
+

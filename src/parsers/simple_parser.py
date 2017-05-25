@@ -21,13 +21,16 @@ class SimpleEmailParser(BaseEmailParser):
         email = self.parser.parse(file_pointer)
 
         # Mandatory fields
+        body, has_html = self.parse_body(email.get_payload())
+
         document = {
             'sender': email['From'],
             'recipients': self.parse_recipients(email),
             'date': self.parse_date(email),
             'charset': email.get_charsets()[0],
             'subject': email['Subject'],
-            'body': self.parse_body(email.get_payload())
+            'body': body,
+            'has_html': has_html
         }
 
         # TODO tomdr 24/05/2017:
@@ -67,14 +70,11 @@ class SimpleEmailParser(BaseEmailParser):
                 text[0].get_payload()  # Shortcut: check mimetype in future.
             )
         else:
-            text = strip_html(text)
-            return text
+            has_html = _contains_html(text)
+            if has_html:
+                text = strip_tags(text)  # Relatively Expensive
 
-
-def strip_html(text):
-    if _contains_html(text):
-        text = strip_tags(text)  # Relatively expensive
-    return text
+            return text, has_html
 
 
 def _contains_html(text):

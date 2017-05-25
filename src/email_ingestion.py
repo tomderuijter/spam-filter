@@ -40,7 +40,7 @@ class EmailIngester:
                 emails.append(self.process_email(email_path))
 
             # TODO Remove except and improve parser.
-            except (ValueError, TypeError):
+            except (ValueError, TypeError) as e:
                 continue
 
         # TODO tomdr 25/05/2017: add proper logging

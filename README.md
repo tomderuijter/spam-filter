@@ -8,6 +8,7 @@ src/          # Python source root
 
 notebooks/    # Contains code sketches and analysis
 data/         # Place holder for data
+
 ```
 
 ### Literature
