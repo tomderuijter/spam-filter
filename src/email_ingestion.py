@@ -23,12 +23,15 @@ class EmailIngester:
         ]
         return email_paths
 
-    def ingest_folder(self, root_path):
+    def ingest_folder(self, root_path, max_files=None):
 
         start_time = time()
         email_paths = self.list_emails(root_path)
 
         emails = []
+
+        if max_files is not None:
+            email_paths = email_paths[:int(max_files)]
 
         # Candidate for parallel processing.
         for email_path in email_paths:
@@ -40,7 +43,7 @@ class EmailIngester:
             except (ValueError, TypeError):
                 continue
 
-        # TODO tomdr 25/05/2017: add decent logging
+        # TODO tomdr 25/05/2017: add proper logging
         print("Processed %d / %d emails (%.3fs)." % (
             len(emails), len(email_paths), time() - start_time))
 
